@@ -10,4 +10,3 @@
 4. Multiplication of fractions
 5. Division of fractions
 6. Find Average, Mode, Median, and Range within a group (6-10) of numbers (either integers, decimals (no more than 4 decimal points), or fractions)
-   T
