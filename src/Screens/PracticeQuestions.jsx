@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
 import TitleWithBackground from '../Components/TitleWithBackground';
+import FractionDecimalConversion from '../Components/FractionDecimalConversion';
 
 export default function PracticeQuestions() {
   const temp = localStorage.getItem('type');
@@ -27,7 +28,12 @@ export default function PracticeQuestions() {
             </Box>
           </Grid>
 
-          <Grid>{temp}</Grid>
+          {/* Question section */}
+          <Grid item xs={12}>
+            <Box>
+              <FractionDecimalConversion />
+            </Box>
+          </Grid>
         </Grid>
       </Grid>
     </>
