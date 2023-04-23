@@ -9,64 +9,111 @@ import {
   Stack,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { getRandomNum, shuffleList } from '../Utils/util';
+import { getRandomNum, saveQuestion, shuffleList } from '../Utils/util';
 import { INDEX_ANSWER_MAPPING } from '../Constants';
+import Timer from './Timer';
 
 export default function FractionDecimalConversion() {
   const [numerator, setNumerator] = useState(getRandomNum(1, 100));
   const [denominator, setDenominator] = useState(getRandomNum(1, 100));
 
   // true answer
-  const [result, setResult] = useState(
-    Math.round((numerator / denominator) * 1000) / 1000,
-  );
+  const [result, setResult] = useState(null);
 
-  // list of all answers
+  // list of all answers (true and false answers)
   const [allResults, setAllResults] = useState([]);
 
+  // flag for skipping the question
   const [flag, setFlag] = useState(false);
 
+  // null, index for user's answer
   const [answerIndex, setAnswerIndex] = useState(null);
+
+  // null, true, or false for user's answer
   const [answer, setAnswer] = useState(null);
 
-  // generate wrong answers
-  const generateResults = () => {
-    // if answer is more than 10
+  // generate a question
+  const generateQuestion = () => {
+    const newNumerator = getRandomNum(1, 100);
+    const newDenominator = getRandomNum(1, 100);
+    const newResult = Math.round((newNumerator / newDenominator) * 1000) / 1000;
+    setNumerator(newNumerator);
+    setDenominator(newDenominator);
+    setResult(newResult);
+
+    setAllResults([]);
+    setFlag(false);
+    setAnswerIndex(null);
+    setAnswer(null);
+
     const errors = [0, 0, 0];
-    if (result / 10 >= 1) {
+    if (newResult / 10 >= 1) {
       errors.forEach((error, index) => {
         errors[index] = getRandomNum(1, 100) + getRandomNum(1, 100) / 100;
       });
-    } else if (result / 10 < 1 && result / 10 >= 0.1) {
+    } else if (newResult / 10 < 1 && newResult / 10 >= 0.1) {
       // if  1 <=  < 10
       errors.forEach((error, index) => {
         errors[index] = getRandomNum(1, 10) + getRandomNum(1, 100) / 100;
       });
-    } else if (result / 10 < 0.1) {
+    } else if (newResult / 10 < 0.1) {
       // if answer < 1
       errors.forEach((error, index) => {
         errors[index] = getRandomNum(1, 100) / 100;
       });
     }
 
-    setAllResults([...shuffleList([result, ...errors])]);
+    setAllResults([...shuffleList([newResult, ...errors])]);
   };
 
+  // display the answer card
   const checkAnswer = () => {
     if (answerIndex !== null) {
-      console.log(allResults);
-
       const realIndex = allResults.findIndex((item) => item === result);
-      console.log(answerIndex);
-      console.log(realIndex);
-      console.log(realIndex - answerIndex);
       setAnswer(realIndex - answerIndex === 0);
-      console.log(answer);
     }
   };
 
+  // ok button for the next question
+  const nextQuestion = () => {
+    // record question first
+    // const question = {
+    //   index: 0,
+    //   question: 'question',
+    //   answer: null, // null, true, or false to indicate if the question is answered or answer is correct
+    // };
+    const questionDetail = {
+      index: parseInt(localStorage.getItem('numsOfQuestionsAnswered')),
+      question:
+        'What is ' + numerator + '/' + denominator + ' in decimal form?',
+      answer: answer,
+      answers: allResults,
+      answerIndex: allResults.findIndex((item) => item === result),
+    };
+
+    saveQuestion(questionDetail);
+
+    generateQuestion();
+  };
+
+  // skip the question
+  const skipQuestion = () => {
+    const questionDetail = {
+      index: parseInt(localStorage.getItem('numsOfQuestionsAnswered')),
+      question:
+        'What is ' + numerator + '/' + denominator + ' in decimal form?',
+      answer: answer,
+      answers: allResults,
+      answerIndex: allResults.findIndex((item) => item === result),
+    };
+
+    saveQuestion(questionDetail);
+
+    generateQuestion();
+  };
+
   useEffect(() => {
-    generateResults();
+    generateQuestion();
   }, []);
 
   return (
@@ -74,12 +121,29 @@ export default function FractionDecimalConversion() {
       {/* question card */}
       {answer === null && (
         <Paper elevation={3} sx={{ padding: '20px', marginTop: '20px' }}>
-          <Box sx={{ fontWeight: 'bold' }}>
-            Flag Question{' '}
-            <Checkbox
-              checked={flag}
-              onChange={(e) => setFlag(e.target.checked)}
-            />
+          <Box
+            sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center' }}
+          >
+            <Box
+              sx={{
+                width: '100%',
+              }}
+            >
+              Flag Question
+              <Checkbox
+                checked={flag}
+                onChange={(e) => setFlag(e.target.checked)}
+              />
+            </Box>
+            <Box
+              sx={{
+                justifyContent: 'flex-end',
+                display: 'flex',
+                width: '100%',
+              }}
+            >
+              <Timer />
+            </Box>
           </Box>
           <Box>
             What is {numerator}/{denominator} in decimal form?
@@ -126,7 +190,11 @@ export default function FractionDecimalConversion() {
               </Button>
             )}
 
-            {flag && <Button variant='outlined'>Skip</Button>}
+            {flag && (
+              <Button variant='outlined' onClick={skipQuestion}>
+                Skip
+              </Button>
+            )}
           </Box>
         </Paper>
       )}
@@ -176,7 +244,9 @@ export default function FractionDecimalConversion() {
             </>
           )}
           <Box>
-            <Button variant='outlined'>Ok</Button>
+            <Button variant='outlined' onClick={nextQuestion}>
+              Ok
+            </Button>
           </Box>
         </Paper>
       )}
