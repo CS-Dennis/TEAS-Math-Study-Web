@@ -3,7 +3,6 @@ import {
   Button,
   Checkbox,
   FormControlLabel,
-  Grid,
   Paper,
   Radio,
   RadioGroup,
@@ -13,7 +12,7 @@ import React, { useEffect, useState } from 'react';
 import { getRandomNum, saveQuestion, shuffleList } from '../Utils/util';
 import { INDEX_ANSWER_MAPPING } from '../Constants';
 import Timer from './Timer';
-import { useNavigate } from 'react-router-dom';
+import EndPractice from './EndPractice';
 
 export default function FractionDecimalConversion() {
   const [questionsViewed, setQuestionsViewed] = useState(0);
@@ -109,12 +108,6 @@ export default function FractionDecimalConversion() {
     setQuestionsViewed(parseInt(localStorage.getItem('numsOfQuestionsViewed')));
 
     generateQuestion();
-  };
-
-  const navigate = useNavigate();
-  const endPractice = () => {
-    localStorage.setItem('report', true);
-    navigate('/practice/report');
   };
 
   useEffect(() => {
@@ -257,21 +250,7 @@ export default function FractionDecimalConversion() {
       )}
 
       {/* End Practice */}
-      {questionsViewed > 0 && (
-        <Grid item xs={12}>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginTop: '50px',
-            }}
-          >
-            <Button variant='outlined' onClick={endPractice}>
-              End Practice
-            </Button>
-          </Box>
-        </Grid>
-      )}
+      <EndPractice questionsViewed={questionsViewed} />
     </>
   );
 }
