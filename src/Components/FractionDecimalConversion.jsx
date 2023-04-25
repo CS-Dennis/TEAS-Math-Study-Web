@@ -71,32 +71,26 @@ export default function FractionDecimalConversion() {
 
   // display the answer card
   const checkAnswer = () => {
+    const realIndex = allResults.findIndex((item) => item === result);
     if (answerIndex !== null) {
-      const realIndex = allResults.findIndex((item) => item === result);
       setAnswer(realIndex === parseInt(answerIndex));
     }
-  };
 
-  // ok button for the next question
-  const nextQuestion = () => {
-    // record question first
-    // const question = {
-    //   index: 0,
-    //   question: 'question',
-    //   answer: null, // null, true, or false to indicate if the question is answered or answer is correct
-    // };
     const questionDetail = {
       index: parseInt(localStorage.getItem('numsOfQuestionsViewed')),
       question:
         'What is ' + numerator + '/' + denominator + ' in decimal form?',
-      answer: answer,
+      answer: answerIndex !== null ? realIndex === parseInt(answerIndex) : null,
       answers: allResults,
       answerIndex: allResults.findIndex((item) => item === result),
     };
 
     saveQuestion(questionDetail);
     setQuestionsViewed(parseInt(localStorage.getItem('numsOfQuestionsViewed')));
+  };
 
+  // ok button for the next question
+  const nextQuestion = () => {
     generateQuestion();
   };
 

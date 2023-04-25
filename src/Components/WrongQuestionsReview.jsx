@@ -5,6 +5,7 @@ import EastRoundedIcon from '@mui/icons-material/EastRounded';
 
 // question statement, answers, real answer index in parameter object
 export default function WrongQuestionsReview({ questions }) {
+  // eslint-disable-next-line no-unused-vars
   const [wrongQuestions, setWrongQuestions] = useState(questions);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
