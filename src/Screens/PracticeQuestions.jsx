@@ -1,4 +1,4 @@
-import { Box, Button, Grid, IconButton } from '@mui/material';
+import { Box, Grid, IconButton } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
@@ -30,22 +30,9 @@ export default function PracticeQuestions() {
           {/* Question section */}
           <Grid item xs={12}>
             <Box sx={{ margin: '0 10px' }}>
-              <FractionDecimalConversion />
-            </Box>
-          </Grid>
-
-          {/* End Practice */}
-          <Grid item xs={12}>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                marginTop: '50px',
-              }}
-            >
-              <Link to={'/practice/report'}>
-                <Button variant='outlined'>End Practice</Button>
-              </Link>
+              {parseInt(localStorage.getItem('type')) === 1 && (
+                <FractionDecimalConversion />
+              )}
             </Box>
           </Grid>
         </Grid>

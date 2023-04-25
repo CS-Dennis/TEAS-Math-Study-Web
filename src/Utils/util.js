@@ -33,20 +33,19 @@ export const saveQuestion = (questionDetail) => {
   // questionDetail object example
   // {
   //   index: 0,
-  //   numerator: 1, // this field may change depending on the type
-  //   denominator: 2, // this field may change depending on the type
+  //   question: 'what is 1/2 in decimal form?',
   //   answer: null // true, false
   //   answers: [1,2,3,4],
   //   answerIndex: 0
   // }
   let allQuestions = JSON.parse(localStorage.getItem('questions'));
   const numsOfQuestions = parseInt(
-    localStorage.getItem('numsOfQuestionsAnswered'),
+    localStorage.getItem('numsOfQuestionsViewed'),
   );
   if (allQuestions === null) {
     allQuestions = [];
   }
   allQuestions.push(questionDetail);
   localStorage.setItem('questions', JSON.stringify(allQuestions));
-  localStorage.setItem('numsOfQuestionsAnswered', numsOfQuestions + 1);
+  localStorage.setItem('numsOfQuestionsViewed', numsOfQuestions + 1);
 };

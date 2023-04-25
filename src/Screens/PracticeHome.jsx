@@ -22,7 +22,7 @@ export default function Practice() {
   const startQuestions = () => {
     localStorage.setItem('mode', 'practice');
     localStorage.setItem('type', questionType);
-    localStorage.setItem('numsOfQuestionsAnswered', 0);
+    localStorage.setItem('numsOfQuestionsViewed', 0);
 
     navigate('./questions');
   };
@@ -49,7 +49,7 @@ export default function Practice() {
           </Grid>
 
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-            <FormControl sx={{ minWidth: 450, marginTop: '50px' }}>
+            <FormControl sx={{ minWidth: 350, marginTop: '50px' }}>
               <InputLabel id='demo-simple-select-label'>
                 Pick a question type
               </InputLabel>
@@ -67,6 +67,8 @@ export default function Practice() {
                 <MenuItem value={5}>{QUESTION_TYPE_MAPPING['5']}</MenuItem>
                 <MenuItem value={6}>{QUESTION_TYPE_MAPPING['6']}</MenuItem>
                 <MenuItem value={7}>{QUESTION_TYPE_MAPPING['7']}</MenuItem>
+                <MenuItem value={8}>{QUESTION_TYPE_MAPPING['8']}</MenuItem>
+                <MenuItem value={9}>{QUESTION_TYPE_MAPPING['9']}</MenuItem>
               </Select>
             </FormControl>
           </Grid>

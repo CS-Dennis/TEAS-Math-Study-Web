@@ -3,6 +3,7 @@ import {
   Button,
   Checkbox,
   FormControlLabel,
+  Grid,
   Paper,
   Radio,
   RadioGroup,
@@ -12,8 +13,10 @@ import React, { useEffect, useState } from 'react';
 import { getRandomNum, saveQuestion, shuffleList } from '../Utils/util';
 import { INDEX_ANSWER_MAPPING } from '../Constants';
 import Timer from './Timer';
+import { useNavigate } from 'react-router-dom';
 
 export default function FractionDecimalConversion() {
+  const [questionsViewed, setQuestionsViewed] = useState(0);
   const [numerator, setNumerator] = useState(getRandomNum(1, 100));
   const [denominator, setDenominator] = useState(getRandomNum(1, 100));
 
@@ -70,7 +73,7 @@ export default function FractionDecimalConversion() {
   const checkAnswer = () => {
     if (answerIndex !== null) {
       const realIndex = allResults.findIndex((item) => item === result);
-      setAnswer(realIndex - answerIndex === 0);
+      setAnswer(realIndex === parseInt(answerIndex));
     }
   };
 
@@ -83,7 +86,7 @@ export default function FractionDecimalConversion() {
     //   answer: null, // null, true, or false to indicate if the question is answered or answer is correct
     // };
     const questionDetail = {
-      index: parseInt(localStorage.getItem('numsOfQuestionsAnswered')),
+      index: parseInt(localStorage.getItem('numsOfQuestionsViewed')),
       question:
         'What is ' + numerator + '/' + denominator + ' in decimal form?',
       answer: answer,
@@ -92,6 +95,7 @@ export default function FractionDecimalConversion() {
     };
 
     saveQuestion(questionDetail);
+    setQuestionsViewed(parseInt(localStorage.getItem('numsOfQuestionsViewed')));
 
     generateQuestion();
   };
@@ -99,7 +103,7 @@ export default function FractionDecimalConversion() {
   // skip the question
   const skipQuestion = () => {
     const questionDetail = {
-      index: parseInt(localStorage.getItem('numsOfQuestionsAnswered')),
+      index: parseInt(localStorage.getItem('numsOfQuestionsViewed')),
       question:
         'What is ' + numerator + '/' + denominator + ' in decimal form?',
       answer: answer,
@@ -108,8 +112,15 @@ export default function FractionDecimalConversion() {
     };
 
     saveQuestion(questionDetail);
+    setQuestionsViewed(parseInt(localStorage.getItem('numsOfQuestionsViewed')));
 
     generateQuestion();
+  };
+
+  const navigate = useNavigate();
+  const endPractice = () => {
+    localStorage.setItem('report', true);
+    navigate('/practice/report');
   };
 
   useEffect(() => {
@@ -161,22 +172,22 @@ export default function FractionDecimalConversion() {
                 onChange={(e) => setAnswerIndex(e.target.value)}
               >
                 <FormControlLabel
-                  value='0'
+                  value={0}
                   control={<Radio />}
                   label={'A. ' + allResults[0]}
                 />
                 <FormControlLabel
-                  value='1'
+                  value={1}
                   control={<Radio />}
                   label={'B. ' + allResults[1]}
                 />
                 <FormControlLabel
-                  value='2'
+                  value={2}
                   control={<Radio />}
                   label={'C. ' + allResults[2]}
                 />
                 <FormControlLabel
-                  value='3'
+                  value={3}
                   control={<Radio />}
                   label={'D. ' + allResults[3]}
                 />
@@ -249,6 +260,23 @@ export default function FractionDecimalConversion() {
             </Button>
           </Box>
         </Paper>
+      )}
+
+      {/* End Practice */}
+      {questionsViewed > 0 && (
+        <Grid item xs={12}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: '50px',
+            }}
+          >
+            <Button variant='outlined' onClick={endPractice}>
+              End Practice
+            </Button>
+          </Box>
+        </Grid>
       )}
     </>
   );
