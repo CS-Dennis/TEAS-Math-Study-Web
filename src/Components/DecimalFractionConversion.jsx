@@ -19,7 +19,10 @@ import {
 import { INDEX_ANSWER_MAPPING } from '../Constants';
 import EndPractice from './EndPractice';
 
-export default function DecimalFractionConversion() {
+export default function DecimalFractionConversion({
+  questionTypeChange,
+  questionSubType,
+}) {
   const [questionsViewed, setQuestionsViewed] = useState(null);
 
   // random deciaml in the question
@@ -41,6 +44,9 @@ export default function DecimalFractionConversion() {
   const [answer, setAnswer] = useState(null);
 
   const generateQuestion = () => {
+    if (questionSubType === 1) {
+      return;
+    }
     // reseult variables
     setAllResults([]);
     setFlag(false);
@@ -83,7 +89,7 @@ export default function DecimalFractionConversion() {
       decimalPlaceDiff = getRandomNum(1, 3);
     }
     const wrongAnswer1 =
-      randomDecimal * Math.pow(10, decimalPlace) +
+      Math.round(randomDecimal * Math.pow(10, decimalPlace)) +
       '/' +
       Math.pow(10, decimalPlaceDiff);
     console.log(wrongAnswer1);
@@ -126,6 +132,7 @@ export default function DecimalFractionConversion() {
 
   // ok button for the next question
   const nextQuestion = () => {
+    questionTypeChange();
     generateQuestion();
   };
 
@@ -142,12 +149,14 @@ export default function DecimalFractionConversion() {
     saveQuestion(questionDetail);
     setQuestionsViewed(parseInt(localStorage.getItem('numsOfQuestionsViewed')));
 
+    questionTypeChange();
     generateQuestion();
   };
 
   useEffect(() => {
     setQuestionsViewed(parseInt(localStorage.getItem('numsOfQuestionsViewed')));
     generateQuestion();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

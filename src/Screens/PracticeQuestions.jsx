@@ -5,6 +5,7 @@ import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceR
 import TitleWithBackground from '../Components/TitleWithBackground';
 import FractionDecimalConversion from '../Components/FractionDecimalConversion';
 import DecimalFractionConversion from '../Components/DecimalFractionConversion';
+import PracticeQuestionSectionAdapter from '../Components/PracticeQuestionSectionAdapter';
 
 export default function PracticeQuestions() {
   return (
@@ -31,12 +32,9 @@ export default function PracticeQuestions() {
           {/* Question section */}
           <Grid item xs={12}>
             <Box sx={{ margin: '0 10px' }}>
-              {parseInt(localStorage.getItem('type')) === 1 && (
-                <>
-                  <FractionDecimalConversion />
-                  <DecimalFractionConversion />
-                </>
-              )}
+              <PracticeQuestionSectionAdapter
+                type={parseInt(localStorage.getItem('type'))}
+              />
             </Box>
           </Grid>
         </Grid>

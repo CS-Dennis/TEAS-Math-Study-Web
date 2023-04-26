@@ -14,7 +14,10 @@ import { INDEX_ANSWER_MAPPING } from '../Constants';
 import Timer from './Timer';
 import EndPractice from './EndPractice';
 
-export default function FractionDecimalConversion() {
+export default function FractionDecimalConversion({
+  questionTypeChange,
+  questionSubType,
+}) {
   const [questionsViewed, setQuestionsViewed] = useState(null);
   const [numerator, setNumerator] = useState(getRandomNum(1, 100));
   const [denominator, setDenominator] = useState(getRandomNum(1, 100));
@@ -36,6 +39,9 @@ export default function FractionDecimalConversion() {
 
   // generate a question
   const generateQuestion = () => {
+    if (questionSubType === 2) {
+      return;
+    }
     const newNumerator = getRandomNum(1, 100);
     const newDenominator = getRandomNum(1, 100);
     const newResult = Math.round((newNumerator / newDenominator) * 1000) / 1000;
@@ -91,6 +97,7 @@ export default function FractionDecimalConversion() {
 
   // ok button for the next question
   const nextQuestion = () => {
+    questionTypeChange();
     generateQuestion();
   };
 
@@ -108,6 +115,7 @@ export default function FractionDecimalConversion() {
     saveQuestion(questionDetail);
     setQuestionsViewed(parseInt(localStorage.getItem('numsOfQuestionsViewed')));
 
+    questionTypeChange();
     generateQuestion();
   };
 
