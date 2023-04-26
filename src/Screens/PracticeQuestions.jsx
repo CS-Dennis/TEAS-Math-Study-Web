@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
 import TitleWithBackground from '../Components/TitleWithBackground';
 import FractionDecimalConversion from '../Components/FractionDecimalConversion';
+import DecimalFractionConversion from '../Components/DecimalFractionConversion';
 
 export default function PracticeQuestions() {
   return (
@@ -31,7 +32,10 @@ export default function PracticeQuestions() {
           <Grid item xs={12}>
             <Box sx={{ margin: '0 10px' }}>
               {parseInt(localStorage.getItem('type')) === 1 && (
-                <FractionDecimalConversion />
+                <>
+                  <FractionDecimalConversion />
+                  <DecimalFractionConversion />
+                </>
               )}
             </Box>
           </Grid>

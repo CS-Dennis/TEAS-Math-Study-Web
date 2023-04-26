@@ -55,7 +55,6 @@ export default function ReportSection() {
     // update localStorage
     const newAllQuestions = JSON.parse(localStorage.getItem('questions'));
     newAllQuestions[unansweredQuestions[0].index].answer = userAnswer;
-    console.log(newAllQuestions);
     localStorage.setItem('questions', JSON.stringify(newAllQuestions));
 
     // state variables
