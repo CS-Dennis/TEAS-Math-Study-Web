@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from 'react';
+import { getRandomNum, saveQuestion, shuffleList } from '../Utils/util';
 import {
   Box,
   Button,
@@ -8,16 +10,11 @@ import {
   RadioGroup,
   Stack,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { getRandomNum, saveQuestion, shuffleList } from '../Utils/util';
-import { INDEX_ANSWER_MAPPING } from '../Constants';
 import Timer from './Timer';
+import { INDEX_ANSWER_MAPPING } from '../Constants';
 import EndPractice from './EndPractice';
 
-export default function FractionDecimalConversion({
-  questionTypeChange,
-  questionSubType,
-}) {
+export default function FractionPercentageConversion({ questionTypeChange }) {
   const [questionsViewed, setQuestionsViewed] = useState(null);
   const [numerator, setNumerator] = useState(getRandomNum(1, 100));
   const [denominator, setDenominator] = useState(getRandomNum(1, 100));
@@ -41,10 +38,10 @@ export default function FractionDecimalConversion({
   const generateQuestion = () => {
     const newNumerator = getRandomNum(1, 100);
     const newDenominator = getRandomNum(1, 100);
-    const newResult = Math.round((newNumerator / newDenominator) * 1000) / 1000;
+    const newResult = Math.round((newNumerator / newDenominator) * 1000) / 10;
     setNumerator(newNumerator);
     setDenominator(newDenominator);
-    setResult(newResult);
+    setResult(newResult + '%');
 
     // reseult variables
     setAllResults([]);
@@ -52,24 +49,16 @@ export default function FractionDecimalConversion({
     setAnswerIndex(null);
     setAnswer(null);
 
-    const errors = [0, 0, 0];
-    if (newResult / 10 >= 1) {
-      errors.forEach((error, index) => {
-        errors[index] = getRandomNum(1, 100) + getRandomNum(1, 100) / 100;
-      });
-    } else if (newResult / 10 < 1 && newResult / 10 >= 0.1) {
-      // if  1 <=  < 10
-      errors.forEach((error, index) => {
-        errors[index] = getRandomNum(1, 10) + getRandomNum(1, 100) / 100;
-      });
-    } else if (newResult / 10 < 0.1) {
-      // if answer < 1
-      errors.forEach((error, index) => {
-        errors[index] = getRandomNum(1, 100) / 100;
-      });
-    }
+    let errors = [0, 0, 0, 0];
+    errors[0] = Math.round(newResult * 1000) / 10000 + '%'; // /10
+    errors[1] = Math.round(newResult * 1000) / 100000 + '%'; // /100
+    errors[2] = Math.round(newResult * 1000) / 100 + '%'; // * 10
+    errors[3] = Math.round(newResult * 1000) / 10 + '%'; // * 100
+    errors = shuffleList(errors);
 
-    setAllResults([...shuffleList([newResult, ...errors])]);
+    setAllResults([
+      ...shuffleList([newResult + '%', errors[0], errors[1], errors[2]]),
+    ]);
   };
 
   // display the answer card
@@ -82,7 +71,7 @@ export default function FractionDecimalConversion({
     const questionDetail = {
       index: parseInt(localStorage.getItem('numsOfQuestionsViewed')),
       question:
-        'What is ' + numerator + '/' + denominator + ' in decimal form?',
+        'What is ' + numerator + '/' + denominator + ' in percentage form?',
       answer: answerIndex !== null ? realIndex === parseInt(answerIndex) : null,
       answers: allResults,
       answerIndex: allResults.findIndex((item) => item === result),
@@ -120,7 +109,6 @@ export default function FractionDecimalConversion({
     setQuestionsViewed(parseInt(localStorage.getItem('numsOfQuestionsViewed')));
     generateQuestion();
   }, []);
-
   return (
     <>
       {/* question card */}
@@ -151,7 +139,7 @@ export default function FractionDecimalConversion({
             </Box>
           </Box>
           <Box>
-            What is {numerator}/{denominator} in decimal form?
+            What is {numerator}/{denominator} in percentage form?
           </Box>
 
           <Box

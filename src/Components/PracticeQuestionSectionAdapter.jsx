@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { getRandomNum } from '../Utils/util';
 import FractionDecimalConversion from './FractionDecimalConversion';
 import DecimalFractionConversion from './DecimalFractionConversion';
+import FractionPercentageConversion from './FractionPercentageConversion';
+import PercentageFractionConversion from './PercentageFractionConversion';
 
 export default function PracticeQuestionSectionAdapter({ type }) {
   const [questionType, setQuestionType] = useState(type);
@@ -11,7 +13,7 @@ export default function PracticeQuestionSectionAdapter({ type }) {
 
   const questionTypeChange = () => {
     // Fraction to Decimal (vice versa)
-    if (type === 1) {
+    if (type === 1 || type === 2) {
       const randomSubType = getRandomNum(1, 2);
       setQuestionSubType(randomSubType);
       console.log(randomSubType);
@@ -20,6 +22,9 @@ export default function PracticeQuestionSectionAdapter({ type }) {
 
   useEffect(() => {
     questionTypeChange();
+
+    // for test purpose
+    setQuestionSubType(2);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -30,13 +35,25 @@ export default function PracticeQuestionSectionAdapter({ type }) {
           {questionSubType === 1 && (
             <FractionDecimalConversion
               questionTypeChange={() => questionTypeChange()}
-              questionSubType={questionSubType}
             />
           )}
           {questionSubType === 2 && (
             <DecimalFractionConversion
               questionTypeChange={() => questionTypeChange()}
-              questionSubType={questionSubType}
+            />
+          )}
+        </>
+      )}
+      {questionType === 2 && (
+        <>
+          {questionSubType === 1 && (
+            <FractionPercentageConversion
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+          {questionSubType === 2 && (
+            <PercentageFractionConversion
+              questionTypeChange={() => questionTypeChange()}
             />
           )}
         </>

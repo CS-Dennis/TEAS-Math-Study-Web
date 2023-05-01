@@ -19,10 +19,7 @@ import {
 import { INDEX_ANSWER_MAPPING } from '../Constants';
 import EndPractice from './EndPractice';
 
-export default function DecimalFractionConversion({
-  questionTypeChange,
-  questionSubType,
-}) {
+export default function DecimalFractionConversion({ questionTypeChange }) {
   const [questionsViewed, setQuestionsViewed] = useState(null);
 
   // random deciaml in the question
@@ -44,9 +41,6 @@ export default function DecimalFractionConversion({
   const [answer, setAnswer] = useState(null);
 
   const generateQuestion = () => {
-    if (questionSubType === 1) {
-      return;
-    }
     // reseult variables
     setAllResults([]);
     setFlag(false);
@@ -64,21 +58,17 @@ export default function DecimalFractionConversion({
         Math.round(
           (numeratorRandom / denominatorRandom) * Math.pow(10, decimalPlace),
         ) / Math.pow(10, decimalPlace);
-      console.log(randomDecimal);
+
       if (randomDecimal > 0 && randomDecimal < 1) {
         flag = false;
       }
     }
     // set the randomDecimal in the question
     setDecimal(randomDecimal);
-    console.log(decimalPlace);
-    console.log(randomDecimal);
 
     const gcd = gcdFromTwoNumbers(randomDecimal * 1000, 1000);
     const numerator = (randomDecimal * 1000) / gcd;
     const denominator = 1000 / gcd;
-    console.log(gcd);
-    console.log(numerator + '/' + denominator);
     // set the true answer
     const trueAnswer = numerator + '/' + denominator;
     setResult(trueAnswer);
@@ -92,7 +82,6 @@ export default function DecimalFractionConversion({
       Math.round(randomDecimal * Math.pow(10, decimalPlace)) +
       '/' +
       Math.pow(10, decimalPlaceDiff);
-    console.log(wrongAnswer1);
 
     // set the 2nd wrong answer
     let numeratorTemp = getRandomNum(1, 100);
@@ -103,8 +92,6 @@ export default function DecimalFractionConversion({
     numeratorTemp = getRandomNum(1, 100);
     denominatorTemp = getRandomNum(numeratorTemp, 100);
     const wrongAnswer3 = numeratorTemp + '/' + denominatorTemp;
-    console.log(wrongAnswer2);
-    console.log(wrongAnswer3);
 
     setAllResults([
       ...shuffleList([trueAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3]),
