@@ -9,6 +9,7 @@ import PercentageDecimalConversion from './PercentageDecimalConversion';
 import AdditionOfDecimal from './AdditionOfDecimal';
 import SubtractionOfDecimal from './SubtractionOfDecimal';
 import MultiplicationOfDecimal from './MultiplicationOfDecimal';
+import DivisionOfDecimal from './DivisionOfDecimal';
 
 export default function PracticeQuestionSectionAdapter({ type }) {
   // eslint-disable-next-line no-unused-vars
@@ -86,6 +87,9 @@ export default function PracticeQuestionSectionAdapter({ type }) {
         <MultiplicationOfDecimal
           questionTypeChange={() => questionTypeChange()}
         />
+      )}
+      {questionType === 7 && (
+        <DivisionOfDecimal questionTypeChange={() => questionTypeChange()} />
       )}
     </>
   );
