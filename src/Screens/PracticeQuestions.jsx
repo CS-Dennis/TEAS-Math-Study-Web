@@ -3,8 +3,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
 import TitleWithBackground from '../Components/TitleWithBackground';
-import FractionDecimalConversion from '../Components/FractionDecimalConversion';
-import DecimalFractionConversion from '../Components/DecimalFractionConversion';
 import PracticeQuestionSectionAdapter from '../Components/PracticeQuestionSectionAdapter';
 
 export default function PracticeQuestions() {

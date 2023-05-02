@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from 'react';
+import { getRandomNum, saveQuestion, shuffleList } from '../Utils/util';
 import {
   Box,
   Button,
@@ -8,22 +10,13 @@ import {
   RadioGroup,
   Stack,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
 import Timer from './Timer';
-import {
-  gcdFromTwoNumbers,
-  getRandomNum,
-  saveQuestion,
-  shuffleList,
-} from '../Utils/util';
 import { INDEX_ANSWER_MAPPING } from '../Constants';
 import EndPractice from './EndPractice';
 
-export default function DecimalFractionConversion({ questionTypeChange }) {
+export default function PercentageDecimalConversion({ questionTypeChange }) {
   const [questionsViewed, setQuestionsViewed] = useState(null);
-
-  // random deciaml in the question
-  const [decimal, setDecimal] = useState(null);
+  const [percentage, setPercentage] = useState(null);
 
   // true answer
   const [result, setResult] = useState(null);
@@ -40,61 +33,31 @@ export default function DecimalFractionConversion({ questionTypeChange }) {
   // null, true, or false for user's answer
   const [answer, setAnswer] = useState(null);
 
+  // generate a question
   const generateQuestion = () => {
+    const percentageValue =
+      getRandomNum(1, 100) / Math.pow(10, getRandomNum(0, 2));
+
+    const newResult = Math.round(percentageValue * 10000) / 1000000;
+
+    setPercentage(percentageValue + '%');
+    setResult(newResult);
+
     // reseult variables
     setAllResults([]);
     setFlag(false);
     setAnswerIndex(null);
     setAnswer(null);
 
-    // genreate a random decimal
-    const decimalPlace = getRandomNum(1, 3);
-    let randomDecimal = 0;
-    let flag = true;
-    while (flag) {
-      const numeratorRandom = getRandomNum(1, 100);
-      const denominatorRandom = getRandomNum(numeratorRandom, 100);
-      randomDecimal =
-        Math.round(
-          (numeratorRandom / denominatorRandom) * Math.pow(10, decimalPlace),
-        ) / Math.pow(10, decimalPlace);
-
-      if (randomDecimal > 0 && randomDecimal < 1) {
-        flag = false;
-      }
-    }
-    // set the randomDecimal in the question
-    setDecimal(randomDecimal);
-
-    const gcd = gcdFromTwoNumbers(randomDecimal * 1000, 1000);
-    const numerator = (randomDecimal * 1000) / gcd;
-    const denominator = 1000 / gcd;
-    // set the true answer
-    const trueAnswer = numerator + '/' + denominator;
-    setResult(trueAnswer);
-
-    // set the 1st wrong answer
-    let decimalPlaceDiff = decimalPlace;
-    while (decimalPlaceDiff === decimalPlace) {
-      decimalPlaceDiff = getRandomNum(1, 3);
-    }
-    const wrongAnswer1 =
-      Math.round(randomDecimal * Math.pow(10, decimalPlace)) +
-      '/' +
-      Math.pow(10, decimalPlaceDiff);
-
-    // set the 2nd wrong answer
-    let numeratorTemp = getRandomNum(1, 100);
-    let denominatorTemp = getRandomNum(numeratorTemp, 100);
-    const wrongAnswer2 = numeratorTemp + '/' + denominatorTemp;
-
-    // set the 3rd wrong answer
-    numeratorTemp = getRandomNum(1, 100);
-    denominatorTemp = getRandomNum(numeratorTemp, 100);
-    const wrongAnswer3 = numeratorTemp + '/' + denominatorTemp;
+    let errors = [0, 0, 0, 0];
+    errors[0] = Math.round(newResult * 10000000) / 1000000; // *10
+    errors[1] = Math.round(newResult * 100000000) / 1000000; // *100
+    errors[2] = Math.round(newResult * 100000) / 1000000; // /10
+    errors[3] = Math.round(newResult * 10000) / 1000000; // /100
+    errors = shuffleList(errors);
 
     setAllResults([
-      ...shuffleList([trueAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3]),
+      ...shuffleList([newResult, errors[0], errors[1], errors[2]]),
     ]);
   };
 
@@ -107,7 +70,7 @@ export default function DecimalFractionConversion({ questionTypeChange }) {
 
     const questionDetail = {
       index: parseInt(localStorage.getItem('numsOfQuestionsViewed')),
-      question: 'What is ' + decimal + ' in fraction form?',
+      question: 'What is ' + percentage + ' in decimal form?',
       answer: answerIndex !== null ? realIndex === parseInt(answerIndex) : null,
       answers: allResults,
       answerIndex: allResults.findIndex((item) => item === result),
@@ -127,7 +90,7 @@ export default function DecimalFractionConversion({ questionTypeChange }) {
   const skipQuestion = () => {
     const questionDetail = {
       index: parseInt(localStorage.getItem('numsOfQuestionsViewed')),
-      question: 'What is ' + decimal + ' in fraction form?',
+      question: 'What is ' + percentage + ' in decimal form?',
       answer: answer,
       answers: allResults,
       answerIndex: allResults.findIndex((item) => item === result),
@@ -143,7 +106,6 @@ export default function DecimalFractionConversion({ questionTypeChange }) {
   useEffect(() => {
     setQuestionsViewed(parseInt(localStorage.getItem('numsOfQuestionsViewed')));
     generateQuestion();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -175,7 +137,7 @@ export default function DecimalFractionConversion({ questionTypeChange }) {
               <Timer />
             </Box>
           </Box>
-          <Box>What is {decimal} in fraction form?</Box>
+          <Box>What is {percentage} in decimal form?</Box>
 
           <Box
             sx={{
