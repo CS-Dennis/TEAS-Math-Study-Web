@@ -4,6 +4,8 @@ import FractionDecimalConversion from './FractionDecimalConversion';
 import DecimalFractionConversion from './DecimalFractionConversion';
 import FractionPercentageConversion from './FractionPercentageConversion';
 import PercentageFractionConversion from './PercentageFractionConversion';
+import DecimalPercentageConversion from './DecimalPercentageConversion';
+import PercentageDecimalConversion from './PercentageDecimalConversion';
 
 export default function PracticeQuestionSectionAdapter({ type }) {
   const [questionType, setQuestionType] = useState(type);
@@ -13,18 +15,16 @@ export default function PracticeQuestionSectionAdapter({ type }) {
 
   const questionTypeChange = () => {
     // Fraction to Decimal (vice versa)
-    if (type === 1 || type === 2) {
+    if (type === 1 || type === 2 || type === 3) {
       const randomSubType = getRandomNum(1, 2);
       setQuestionSubType(randomSubType);
+      // setQuestionSubType(2);
       console.log(randomSubType);
     }
   };
 
   useEffect(() => {
     questionTypeChange();
-
-    // for test purpose
-    setQuestionSubType(2);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -53,6 +53,20 @@ export default function PracticeQuestionSectionAdapter({ type }) {
           )}
           {questionSubType === 2 && (
             <PercentageFractionConversion
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+        </>
+      )}
+      {questionType === 3 && (
+        <>
+          {questionSubType === 1 && (
+            <DecimalPercentageConversion
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+          {questionSubType === 2 && (
+            <PercentageDecimalConversion
               questionTypeChange={() => questionTypeChange()}
             />
           )}
