@@ -6,6 +6,7 @@ import FractionPercentageConversion from './FractionPercentageConversion';
 import PercentageFractionConversion from './PercentageFractionConversion';
 import DecimalPercentageConversion from './DecimalPercentageConversion';
 import PercentageDecimalConversion from './PercentageDecimalConversion';
+import AdditionOfDecimal from './AdditionOfDecimal';
 
 export default function PracticeQuestionSectionAdapter({ type }) {
   const [questionType, setQuestionType] = useState(type);
@@ -71,6 +72,9 @@ export default function PracticeQuestionSectionAdapter({ type }) {
             />
           )}
         </>
+      )}
+      {questionType === 4 && (
+        <AdditionOfDecimal questionTypeChange={() => questionTypeChange()} />
       )}
     </>
   );
