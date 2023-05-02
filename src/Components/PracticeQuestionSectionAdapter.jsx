@@ -7,8 +7,10 @@ import PercentageFractionConversion from './PercentageFractionConversion';
 import DecimalPercentageConversion from './DecimalPercentageConversion';
 import PercentageDecimalConversion from './PercentageDecimalConversion';
 import AdditionOfDecimal from './AdditionOfDecimal';
+import SubtractionOfDecimal from './SubtractionOfDecimal';
 
 export default function PracticeQuestionSectionAdapter({ type }) {
+  // eslint-disable-next-line no-unused-vars
   const [questionType, setQuestionType] = useState(type);
 
   // this is used for vice versa questions (e.g., Fraction to Decimal (vice versa))
@@ -75,6 +77,9 @@ export default function PracticeQuestionSectionAdapter({ type }) {
       )}
       {questionType === 4 && (
         <AdditionOfDecimal questionTypeChange={() => questionTypeChange()} />
+      )}
+      {questionType === 5 && (
+        <SubtractionOfDecimal questionTypeChange={() => questionTypeChange()} />
       )}
     </>
   );
