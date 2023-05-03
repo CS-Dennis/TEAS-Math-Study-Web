@@ -12,3 +12,7 @@
 6. Multiplication of fractions
 7. Division of fractions
 8. Find Average, Mode, Median, and Range within a group (6-10) of numbers (either integers, decimals (no more than 4 decimal points), or fractions)
+
+# 3rd party libraries used:
+
+1. math.js - https://mathjs.org/docs/datatypes/fractions.html
