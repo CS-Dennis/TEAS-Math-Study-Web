@@ -10,6 +10,7 @@ import AdditionOfDecimal from './AdditionOfDecimal';
 import SubtractionOfDecimal from './SubtractionOfDecimal';
 import MultiplicationOfDecimal from './MultiplicationOfDecimal';
 import DivisionOfDecimal from './DivisionOfDecimal';
+import FindAverageQuestion from './FindAverageQuestion';
 
 export default function PracticeQuestionSectionAdapter({ type }) {
   // eslint-disable-next-line no-unused-vars
@@ -90,6 +91,9 @@ export default function PracticeQuestionSectionAdapter({ type }) {
       )}
       {questionType === 7 && (
         <DivisionOfDecimal questionTypeChange={() => questionTypeChange()} />
+      )}
+      {questionType === 8 && (
+        <FindAverageQuestion questionTypeChange={() => questionTypeChange()} />
       )}
     </>
   );

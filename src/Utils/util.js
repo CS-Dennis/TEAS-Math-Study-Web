@@ -1,3 +1,5 @@
+import { create, all } from 'mathjs';
+
 // clear localStorage
 export const clearLocalStorage = () => {
   localStorage.clear();
@@ -61,4 +63,62 @@ export const gcdFromTwoNumbers = (x, y) => {
     x = t;
   }
   return x;
+};
+
+const math = create(all, {});
+
+// generate a random integer, decimal or fraction
+export const generateNumber = (type) => {
+  let number = 0;
+  if (type === 1) {
+    // integer
+    number = getRandomNum(0, 100);
+  } else if (type === 2) {
+    // decimal
+    number = getRandomNum(0, 100) / Math.pow(10, getRandomNum(0, 3));
+  } else if (type === 3) {
+    //fraction
+
+    const numerator = getRandomNum(1, 100);
+    const denominator = getRandomNum(1, 100);
+    number = math.fraction(numerator + '/' + denominator);
+  }
+
+  return number;
+};
+
+// generate a set of random types (integer, decimal, fraction) of numbers (list size = length)
+export const generateSetOfNumbers = (length) => {
+  const list = [];
+  for (let index = 0; index < length; index++) {
+    const num = getRandomNum(1, 3);
+    list.push(generateNumber(num));
+  }
+  return list;
+};
+
+// convert a list of random types of numbers to string
+export const generateSetOfNumbersToString = (list) => {
+  const stringList = [];
+  list.forEach((number) => {
+    if (typeof number === 'object') {
+      stringList.push(number.n + '/' + number.d);
+    } else {
+      stringList.push(number.toString());
+    }
+  });
+  return stringList;
+};
+
+// sort a list of random types of numbers
+export const sortNumbers = (list, sortType) => {
+  let copyList = [...list];
+  if (sortType === 'asc') {
+    console.log('asc');
+    copyList = copyList.sort((a, b) => math.number(a) - math.number(b));
+  } else if (sortType === 'dsc') {
+    console.log('dsc');
+    copyList.sort((a, b) => math.number(b) - math.number(a));
+  }
+  return copyList;
 };
