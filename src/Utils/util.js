@@ -80,7 +80,7 @@ export const generateNumber = (type) => {
     //fraction
 
     const numerator = getRandomNum(1, 100);
-    const denominator = getRandomNum(1, 100);
+    const denominator = getRandomNum(2, 100);
     number = math.fraction(numerator + '/' + denominator);
   }
 

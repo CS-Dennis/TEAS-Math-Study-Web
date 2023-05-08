@@ -11,6 +11,7 @@ import SubtractionOfDecimal from './SubtractionOfDecimal';
 import MultiplicationOfDecimal from './MultiplicationOfDecimal';
 import DivisionOfDecimal from './DivisionOfDecimal';
 import FindAverageQuestion from './FindAverageQuestion';
+import FindModeQuestion from './FindModeQuestion';
 
 export default function PracticeQuestionSectionAdapter({ type }) {
   // eslint-disable-next-line no-unused-vars
@@ -26,6 +27,10 @@ export default function PracticeQuestionSectionAdapter({ type }) {
       setQuestionSubType(randomSubType);
       // setQuestionSubType(2);
       console.log(randomSubType);
+    } else if (type === 8) {
+      const randomSubType = getRandomNum(1, 4);
+      // setQuestionSubType(randomSubType);
+      setQuestionSubType(2);
     }
   };
 
@@ -93,7 +98,16 @@ export default function PracticeQuestionSectionAdapter({ type }) {
         <DivisionOfDecimal questionTypeChange={() => questionTypeChange()} />
       )}
       {questionType === 8 && (
-        <FindAverageQuestion questionTypeChange={() => questionTypeChange()} />
+        <>
+          {questionSubType === 1 && (
+            <FindAverageQuestion
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+          {questionSubType === 2 && (
+            <FindModeQuestion questionTypeChange={() => questionTypeChange()} />
+          )}
+        </>
       )}
     </>
   );
