@@ -15,7 +15,9 @@ import { INDEX_ANSWER_MAPPING } from '../Constants';
 import EndPractice from './EndPractice';
 
 export default function DecimalPercentageConversion({ questionTypeChange }) {
-  const [questionsViewed, setQuestionsViewed] = useState(null);
+  const [questionsViewed, setQuestionsViewed] = useState(
+    parseInt(localStorage.getItem('numsOfQuestionsViewed')),
+  );
   const [decimal, setDecimal] = useState(null);
 
   // true answer
@@ -201,7 +203,7 @@ export default function DecimalPercentageConversion({ questionTypeChange }) {
           {answer && (
             <Box>
               <img
-                src='/icons/check-mark.png'
+                src='./icons/check-mark.png'
                 alt='checkmark'
                 style={{ height: '100px' }}
               />
@@ -211,7 +213,7 @@ export default function DecimalPercentageConversion({ questionTypeChange }) {
             <>
               <Box>
                 <img
-                  src='/icons/error.png'
+                  src='./icons/error.png'
                   alt='error'
                   style={{ height: '80px' }}
                 />

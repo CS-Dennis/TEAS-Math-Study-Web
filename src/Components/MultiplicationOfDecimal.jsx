@@ -15,7 +15,9 @@ import { INDEX_ANSWER_MAPPING } from '../Constants';
 import EndPractice from './EndPractice';
 
 export default function MultiplicationOfDecimal({ questionTypeChange }) {
-  const [questionsViewed, setQuestionsViewed] = useState(null);
+  const [questionsViewed, setQuestionsViewed] = useState(
+    parseInt(localStorage.getItem('numsOfQuestionsViewed')),
+  );
   const [decimal1, setDecimal1] = useState(null);
   const [decimal2, setDecimal2] = useState(null);
 
@@ -203,7 +205,7 @@ export default function MultiplicationOfDecimal({ questionTypeChange }) {
           {answer && (
             <Box>
               <img
-                src='/icons/check-mark.png'
+                src='./icons/check-mark.png'
                 alt='checkmark'
                 style={{ height: '100px' }}
               />
@@ -213,7 +215,7 @@ export default function MultiplicationOfDecimal({ questionTypeChange }) {
             <>
               <Box>
                 <img
-                  src='/icons/error.png'
+                  src='./icons/error.png'
                   alt='error'
                   style={{ height: '80px' }}
                 />

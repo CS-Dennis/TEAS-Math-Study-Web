@@ -15,7 +15,9 @@ import EndPractice from './EndPractice';
 import { getRandomNum, saveQuestion, shuffleList } from '../Utils/util';
 
 export default function AdditionOfDecimal({ questionTypeChange }) {
-  const [questionsViewed, setQuestionsViewed] = useState(null);
+  const [questionsViewed, setQuestionsViewed] = useState(
+    parseInt(localStorage.getItem('numsOfQuestionsViewed')),
+  );
   const [decimal1, setDecimal1] = useState(null);
   const [decimal2, setDecimal2] = useState(null);
 
@@ -203,7 +205,7 @@ export default function AdditionOfDecimal({ questionTypeChange }) {
           {answer && (
             <Box>
               <img
-                src='/icons/check-mark.png'
+                src='./icons/check-mark.png'
                 alt='checkmark'
                 style={{ height: '100px' }}
               />
@@ -213,7 +215,7 @@ export default function AdditionOfDecimal({ questionTypeChange }) {
             <>
               <Box>
                 <img
-                  src='/icons/error.png'
+                  src='./icons/error.png'
                   alt='error'
                   style={{ height: '80px' }}
                 />

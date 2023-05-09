@@ -14,11 +14,12 @@ import Timer from './Timer';
 import { INDEX_ANSWER_MAPPING } from '../Constants';
 import EndPractice from './EndPractice';
 
-export default function PercentageDecimalConversion({ questionTypeChange }) {
+export default function DivisionOfDecimal({ questionTypeChange }) {
   const [questionsViewed, setQuestionsViewed] = useState(
     parseInt(localStorage.getItem('numsOfQuestionsViewed')),
   );
-  const [percentage, setPercentage] = useState(null);
+  const [decimal1, setDecimal1] = useState(null);
+  const [decimal2, setDecimal2] = useState(null);
 
   // true answer
   const [result, setResult] = useState(null);
@@ -37,12 +38,13 @@ export default function PercentageDecimalConversion({ questionTypeChange }) {
 
   // generate a question
   const generateQuestion = () => {
-    const percentageValue =
-      getRandomNum(1, 100) / Math.pow(10, getRandomNum(0, 2));
+    const decimal1 = getRandomNum(1, 100) / Math.pow(10, getRandomNum(0, 3));
+    const decimal2 = getRandomNum(1, 100) / Math.pow(10, getRandomNum(0, 3));
 
-    const newResult = Math.round(percentageValue * 10000) / 1000000;
+    const newResult = Math.round((decimal1 / decimal2) * 1000) / 1000;
 
-    setPercentage(percentageValue + '%');
+    setDecimal1(decimal1);
+    setDecimal2(decimal2);
     setResult(newResult);
 
     // reseult variables
@@ -51,16 +53,12 @@ export default function PercentageDecimalConversion({ questionTypeChange }) {
     setAnswerIndex(null);
     setAnswer(null);
 
-    let errors = [0, 0, 0, 0];
-    errors[0] = Math.round(newResult * 10000000) / 1000000; // *10
-    errors[1] = Math.round(newResult * 100000000) / 1000000; // *100
-    errors[2] = Math.round(newResult * 100000) / 1000000; // /10
-    errors[3] = Math.round(newResult * 10000) / 1000000; // /100
-    errors = shuffleList(errors);
+    let errors = [0, 0, 0];
+    errors[0] = getRandomNum(1, 100) / Math.pow(10, getRandomNum(0, 3));
+    errors[1] = getRandomNum(1, 100) / Math.pow(10, getRandomNum(0, 3));
+    errors[2] = getRandomNum(1, 100) / Math.pow(10, getRandomNum(0, 3));
 
-    setAllResults([
-      ...shuffleList([newResult, errors[0], errors[1], errors[2]]),
-    ]);
+    setAllResults([...shuffleList([newResult, ...errors])]);
   };
 
   // display the answer card
@@ -72,7 +70,7 @@ export default function PercentageDecimalConversion({ questionTypeChange }) {
 
     const questionDetail = {
       index: parseInt(localStorage.getItem('numsOfQuestionsViewed')),
-      question: 'What is ' + percentage + ' in decimal form?',
+      question: 'What is ' + decimal1 + ' / ' + decimal2 + '?',
       answer: answerIndex !== null ? realIndex === parseInt(answerIndex) : null,
       answers: allResults,
       answerIndex: allResults.findIndex((item) => item === result),
@@ -92,7 +90,7 @@ export default function PercentageDecimalConversion({ questionTypeChange }) {
   const skipQuestion = () => {
     const questionDetail = {
       index: parseInt(localStorage.getItem('numsOfQuestionsViewed')),
-      question: 'What is ' + percentage + ' in decimal form?',
+      question: 'What is ' + decimal1 + ' / ' + decimal2 + '?',
       answer: answer,
       answers: allResults,
       answerIndex: allResults.findIndex((item) => item === result),
@@ -139,7 +137,9 @@ export default function PercentageDecimalConversion({ questionTypeChange }) {
               <Timer />
             </Box>
           </Box>
-          <Box>What is {percentage} in decimal form?</Box>
+          <Box>
+            What is {decimal1} / {decimal2}?
+          </Box>
 
           <Box
             sx={{

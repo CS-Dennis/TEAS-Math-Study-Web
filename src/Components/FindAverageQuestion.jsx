@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { getRandomNum, saveQuestion, shuffleList } from '../Utils/util';
+import {
+  generateSetOfNumbers,
+  generateSetOfNumbersToString,
+  getRandomNum,
+  saveQuestion,
+  shuffleList,
+} from '../Utils/util';
+import EndPractice from './EndPractice';
 import {
   Box,
   Button,
@@ -10,16 +17,17 @@ import {
   RadioGroup,
   Stack,
 } from '@mui/material';
-import Timer from './Timer';
 import { INDEX_ANSWER_MAPPING } from '../Constants';
-import EndPractice from './EndPractice';
+import Timer from './Timer';
 
-export default function PercentageDecimalConversion({ questionTypeChange }) {
+// Find Average Question
+export default function FindAverageQuestion({ questionTypeChange }) {
+  // group of random numbers in string format
+  const [groupOfNumbers, setGroupOfNumbers] = useState([]);
+
   const [questionsViewed, setQuestionsViewed] = useState(
     parseInt(localStorage.getItem('numsOfQuestionsViewed')),
   );
-  const [percentage, setPercentage] = useState(null);
-
   // true answer
   const [result, setResult] = useState(null);
 
@@ -35,35 +43,6 @@ export default function PercentageDecimalConversion({ questionTypeChange }) {
   // null, true, or false for user's answer
   const [answer, setAnswer] = useState(null);
 
-  // generate a question
-  const generateQuestion = () => {
-    const percentageValue =
-      getRandomNum(1, 100) / Math.pow(10, getRandomNum(0, 2));
-
-    const newResult = Math.round(percentageValue * 10000) / 1000000;
-
-    setPercentage(percentageValue + '%');
-    setResult(newResult);
-
-    // reseult variables
-    setAllResults([]);
-    setFlag(false);
-    setAnswerIndex(null);
-    setAnswer(null);
-
-    let errors = [0, 0, 0, 0];
-    errors[0] = Math.round(newResult * 10000000) / 1000000; // *10
-    errors[1] = Math.round(newResult * 100000000) / 1000000; // *100
-    errors[2] = Math.round(newResult * 100000) / 1000000; // /10
-    errors[3] = Math.round(newResult * 10000) / 1000000; // /100
-    errors = shuffleList(errors);
-
-    setAllResults([
-      ...shuffleList([newResult, errors[0], errors[1], errors[2]]),
-    ]);
-  };
-
-  // display the answer card
   const checkAnswer = () => {
     const realIndex = allResults.findIndex((item) => item === result);
     if (answerIndex !== null) {
@@ -72,7 +51,9 @@ export default function PercentageDecimalConversion({ questionTypeChange }) {
 
     const questionDetail = {
       index: parseInt(localStorage.getItem('numsOfQuestionsViewed')),
-      question: 'What is ' + percentage + ' in decimal form?',
+      question:
+        'What is the average of this group of numbers ' +
+        groupOfNumbers.join(', '),
       answer: answerIndex !== null ? realIndex === parseInt(answerIndex) : null,
       answers: allResults,
       answerIndex: allResults.findIndex((item) => item === result),
@@ -82,17 +63,17 @@ export default function PercentageDecimalConversion({ questionTypeChange }) {
     setQuestionsViewed(parseInt(localStorage.getItem('numsOfQuestionsViewed')));
   };
 
-  // ok button for the next question
   const nextQuestion = () => {
     questionTypeChange();
     generateQuestion();
   };
 
-  // skip the question
   const skipQuestion = () => {
     const questionDetail = {
       index: parseInt(localStorage.getItem('numsOfQuestionsViewed')),
-      question: 'What is ' + percentage + ' in decimal form?',
+      question:
+        'What is the average of this group of numbers ' +
+        groupOfNumbers.join(', '),
       answer: answer,
       answers: allResults,
       answerIndex: allResults.findIndex((item) => item === result),
@@ -105,8 +86,45 @@ export default function PercentageDecimalConversion({ questionTypeChange }) {
     generateQuestion();
   };
 
+  const generateQuestion = () => {
+    // reseult variables
+    setAllResults([]);
+    setFlag(false);
+    setAnswerIndex(null);
+    setAnswer(null);
+
+    // the random size of the group of numbers (6 - 10)
+    const tempNumOfNumbers = getRandomNum(6, 10);
+
+    // generate a group of random numbers (integer, decimal, and fraction) based on the random size
+    const tempGroupOfNumbers = generateSetOfNumbers(tempNumOfNumbers);
+
+    setGroupOfNumbers(generateSetOfNumbersToString(tempGroupOfNumbers));
+
+    let tempResult = 0;
+    tempGroupOfNumbers.forEach((num) => {
+      tempResult = Math.round((tempResult + num) * 1000) / 1000;
+    });
+    setResult(tempResult);
+
+    const errors = [0, 0, 0];
+    errors[0] =
+      Math.round(
+        (getRandomNum(0, 100) + getRandomNum(100, 999) / 1000) * 1000,
+      ) / 1000;
+    errors[1] =
+      Math.round(
+        (getRandomNum(0, 100) + getRandomNum(100, 999) / 1000) * 1000,
+      ) / 1000;
+    errors[2] =
+      Math.round(
+        (getRandomNum(0, 100) + getRandomNum(100, 999) / 1000) * 1000,
+      ) / 1000;
+
+    setAllResults([...shuffleList([tempResult, ...errors])]);
+  };
+
   useEffect(() => {
-    setQuestionsViewed(parseInt(localStorage.getItem('numsOfQuestionsViewed')));
     generateQuestion();
   }, []);
 
@@ -139,7 +157,17 @@ export default function PercentageDecimalConversion({ questionTypeChange }) {
               <Timer />
             </Box>
           </Box>
-          <Box>What is {percentage} in decimal form?</Box>
+          <Box>
+            What is the average of this group of numbers
+            {groupOfNumbers.map((num, index) => {
+              if (index !== groupOfNumbers.length - 1) {
+                return ' ' + num + ',';
+              } else {
+                return ' ' + num + ' ';
+              }
+            })}
+            ?
+          </Box>
 
           <Box
             sx={{
