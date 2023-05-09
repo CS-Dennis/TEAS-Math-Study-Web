@@ -100,9 +100,9 @@ export default function FindMedianQuestion({ questionTypeChange }) {
 
     setGroupOfNumbers(generateSetOfNumbersToString(tempGroupOfNumbers));
 
-    console.log(tempGroupOfNumbers);
+    // console.log(tempGroupOfNumbers);
     const sortedList = sortNumbers(tempGroupOfNumbers, 'asc');
-    console.log(sortedList);
+    // console.log(sortedList);
 
     let tempResult = 0;
     if (sortedList.length % 2 === 1) {
@@ -117,7 +117,7 @@ export default function FindMedianQuestion({ questionTypeChange }) {
             1000,
         ) / 1000;
     }
-    console.log(tempResult);
+    // console.log(tempResult);
     setResult(tempResult);
 
     const errors = [0, 0, 0];

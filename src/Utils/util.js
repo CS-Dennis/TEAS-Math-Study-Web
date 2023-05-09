@@ -114,10 +114,8 @@ export const generateSetOfNumbersToString = (list) => {
 export const sortNumbers = (list, sortType) => {
   let copyList = [...list];
   if (sortType === 'asc') {
-    console.log('asc');
     copyList = copyList.sort((a, b) => math.number(a) - math.number(b));
   } else if (sortType === 'dsc') {
-    console.log('dsc');
     copyList.sort((a, b) => math.number(b) - math.number(a));
   }
   return copyList;
