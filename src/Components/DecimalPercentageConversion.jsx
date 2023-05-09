@@ -15,7 +15,9 @@ import { INDEX_ANSWER_MAPPING } from '../Constants';
 import EndPractice from './EndPractice';
 
 export default function DecimalPercentageConversion({ questionTypeChange }) {
-  const [questionsViewed, setQuestionsViewed] = useState(null);
+  const [questionsViewed, setQuestionsViewed] = useState(
+    parseInt(localStorage.getItem('numsOfQuestionsViewed')),
+  );
   const [decimal, setDecimal] = useState(null);
 
   // true answer

@@ -15,7 +15,9 @@ import { INDEX_ANSWER_MAPPING } from '../Constants';
 import EndPractice from './EndPractice';
 
 export default function DivisionOfDecimal({ questionTypeChange }) {
-  const [questionsViewed, setQuestionsViewed] = useState(null);
+  const [questionsViewed, setQuestionsViewed] = useState(
+    parseInt(localStorage.getItem('numsOfQuestionsViewed')),
+  );
   const [decimal1, setDecimal1] = useState(null);
   const [decimal2, setDecimal2] = useState(null);
 

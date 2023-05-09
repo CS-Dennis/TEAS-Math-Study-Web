@@ -13,6 +13,7 @@ import DivisionOfDecimal from './DivisionOfDecimal';
 import FindAverageQuestion from './FindAverageQuestion';
 import FindModeQuestion from './FindModeQuestion';
 import FindMedianQuestion from './FindMedianQuestion';
+import FindRangeQuestion from './FindRangeQuestion';
 
 export default function PracticeQuestionSectionAdapter({ type }) {
   // eslint-disable-next-line no-unused-vars
@@ -30,8 +31,8 @@ export default function PracticeQuestionSectionAdapter({ type }) {
       console.log(randomSubType);
     } else if (type === 8) {
       const randomSubType = getRandomNum(1, 4);
-      // setQuestionSubType(randomSubType);
-      setQuestionSubType(3);
+      setQuestionSubType(randomSubType);
+      // setQuestionSubType(4);
     }
   };
 
@@ -110,6 +111,11 @@ export default function PracticeQuestionSectionAdapter({ type }) {
           )}
           {questionSubType === 3 && (
             <FindMedianQuestion
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+          {questionSubType === 4 && (
+            <FindRangeQuestion
               questionTypeChange={() => questionTypeChange()}
             />
           )}

@@ -25,7 +25,9 @@ export default function FindAverageQuestion({ questionTypeChange }) {
   // group of random numbers in string format
   const [groupOfNumbers, setGroupOfNumbers] = useState([]);
 
-  const [questionsViewed, setQuestionsViewed] = useState(null);
+  const [questionsViewed, setQuestionsViewed] = useState(
+    parseInt(localStorage.getItem('numsOfQuestionsViewed')),
+  );
   // true answer
   const [result, setResult] = useState(null);
 

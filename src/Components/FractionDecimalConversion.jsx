@@ -15,7 +15,9 @@ import Timer from './Timer';
 import EndPractice from './EndPractice';
 
 export default function FractionDecimalConversion({ questionTypeChange }) {
-  const [questionsViewed, setQuestionsViewed] = useState(null);
+  const [questionsViewed, setQuestionsViewed] = useState(
+    parseInt(localStorage.getItem('numsOfQuestionsViewed')),
+  );
   const [numerator, setNumerator] = useState(getRandomNum(1, 100));
   const [denominator, setDenominator] = useState(getRandomNum(1, 100));
 
