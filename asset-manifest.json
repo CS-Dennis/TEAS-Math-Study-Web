@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/TEAS-Math-Study-Web/static/css/main.c983bc92.css",
-    "main.js": "/TEAS-Math-Study-Web/static/js/main.737faf4e.js",
+    "main.js": "/TEAS-Math-Study-Web/static/js/main.41923e1c.js",
     "index.html": "/TEAS-Math-Study-Web/index.html",
     "main.c983bc92.css.map": "/TEAS-Math-Study-Web/static/css/main.c983bc92.css.map",
-    "main.737faf4e.js.map": "/TEAS-Math-Study-Web/static/js/main.737faf4e.js.map"
+    "main.41923e1c.js.map": "/TEAS-Math-Study-Web/static/js/main.41923e1c.js.map"
   },
   "entrypoints": [
     "static/css/main.c983bc92.css",
-    "static/js/main.737faf4e.js"
+    "static/js/main.41923e1c.js"
   ]
 }
