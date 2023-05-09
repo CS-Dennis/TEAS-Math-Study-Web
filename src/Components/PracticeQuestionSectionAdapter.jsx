@@ -33,6 +33,9 @@ export default function PracticeQuestionSectionAdapter({ type }) {
       const randomSubType = getRandomNum(1, 4);
       setQuestionSubType(randomSubType);
       // setQuestionSubType(4);
+    } else if (type === 9) {
+      const randomSubType = getRandomNum(1, 14);
+      setQuestionSubType(randomSubType);
     }
   };
 
@@ -115,6 +118,78 @@ export default function PracticeQuestionSectionAdapter({ type }) {
             />
           )}
           {questionSubType === 4 && (
+            <FindRangeQuestion
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+        </>
+      )}
+      {questionType === 9 && (
+        <>
+          {questionSubType === 1 && (
+            <FractionDecimalConversion
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+          {questionSubType === 2 && (
+            <DecimalFractionConversion
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+          {questionSubType === 3 && (
+            <FractionPercentageConversion
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+          {questionSubType === 4 && (
+            <PercentageFractionConversion
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+          {questionSubType === 5 && (
+            <DecimalPercentageConversion
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+          {questionSubType === 6 && (
+            <PercentageDecimalConversion
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+          {questionSubType === 7 && (
+            <AdditionOfDecimal
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+          {questionSubType === 8 && (
+            <SubtractionOfDecimal
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+          {questionSubType === 9 && (
+            <MultiplicationOfDecimal
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+          {questionSubType === 10 && (
+            <DivisionOfDecimal
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+          {questionSubType === 11 && (
+            <FindAverageQuestion
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+          {questionSubType === 12 && (
+            <FindModeQuestion questionTypeChange={() => questionTypeChange()} />
+          )}
+          {questionSubType === 13 && (
+            <FindMedianQuestion
+              questionTypeChange={() => questionTypeChange()}
+            />
+          )}
+          {questionSubType === 14 && (
             <FindRangeQuestion
               questionTypeChange={() => questionTypeChange()}
             />

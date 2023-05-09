@@ -100,8 +100,6 @@ export default function FindModeQuestion({ questionTypeChange }) {
 
     const tempModeFrequency = getRandomNum(2, tempNumOfNumbers - 1);
     let tempMode = generateSetOfNumbers(1)[0];
-    console.log(tempModeFrequency);
-    console.log(tempMode);
 
     for (let index = 0; index < tempModeFrequency; index++) {
       tempGroupOfNumbers.pop();
@@ -125,16 +123,12 @@ export default function FindModeQuestion({ questionTypeChange }) {
         errors[index] = errors[index].n + '/' + errors[index].d;
       }
     }
-    console.log(errors);
 
     // remove the tempMode in errors
     const tempModeIndex = errors.findIndex((err) => err === tempMode);
-    console.log(tempModeIndex);
     errors = errors
       .slice(0, tempModeIndex)
       .concat(errors.slice(tempModeIndex + 1, errors.length));
-    console.log(errors);
-    console.log([tempMode, ...errors]);
 
     setAllResults([
       ...shuffleList([tempMode, errors[0], errors[1], errors[2]]),

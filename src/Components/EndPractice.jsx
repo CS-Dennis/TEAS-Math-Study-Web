@@ -8,7 +8,6 @@ export default function EndPractice({ questionsViewed }) {
     localStorage.setItem('report', true);
     navigate('/practice/report');
   };
-  console.log(questionsViewed);
   return (
     <>
       {questionsViewed > 0 && (
