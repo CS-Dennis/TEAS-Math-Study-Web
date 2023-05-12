@@ -17,8 +17,8 @@ import {
   Stack,
 } from '@mui/material';
 import Timer from './Timer';
-import { INDEX_ANSWER_MAPPING } from '../Constants';
 import EndPractice from './EndPractice';
+import AnswerCard from './AnswerCard';
 
 export default function FindModeQuestion({ questionTypeChange }) {
   // group of random numbers in string format
@@ -58,7 +58,9 @@ export default function FindModeQuestion({ questionTypeChange }) {
       answerIndex: allResults.findIndex((item) => item === result),
     };
 
-    saveQuestion(questionDetail);
+    if (answer !== 1) {
+      saveQuestion(questionDetail);
+    }
     setQuestionsViewed(parseInt(localStorage.getItem('numsOfQuestionsViewed')));
   };
 
@@ -142,7 +144,7 @@ export default function FindModeQuestion({ questionTypeChange }) {
   return (
     <>
       {/* question card */}
-      {answer === null && (
+      {(answer === null || answer === 1) && (
         <Paper elevation={3} sx={{ padding: '20px', marginTop: '20px' }}>
           <Box
             sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center' }}
@@ -192,21 +194,25 @@ export default function FindModeQuestion({ questionTypeChange }) {
                 onChange={(e) => setAnswerIndex(e.target.value)}
               >
                 <FormControlLabel
+                  disabled={answer === 1 ? true : false}
                   value={0}
                   control={<Radio />}
                   label={'A. ' + allResults[0]}
                 />
                 <FormControlLabel
+                  disabled={answer === 1 ? true : false}
                   value={1}
                   control={<Radio />}
                   label={'B. ' + allResults[1]}
                 />
                 <FormControlLabel
+                  disabled={answer === 1 ? true : false}
                   value={2}
                   control={<Radio />}
                   label={'C. ' + allResults[2]}
                 />
                 <FormControlLabel
+                  disabled={answer === 1 ? true : false}
                   value={3}
                   control={<Radio />}
                   label={'D. ' + allResults[3]}
@@ -231,56 +237,13 @@ export default function FindModeQuestion({ questionTypeChange }) {
       )}
 
       {/* answer card */}
-      {answer !== null && (
-        <Paper
-          elevation={3}
-          sx={{
-            padding: '20px',
-            marginTop: '20px',
-            justifyContent: 'center',
-            display: 'grid',
-          }}
-        >
-          {answer && (
-            <Box>
-              <img
-                src='./icons/check-mark.png'
-                alt='checkmark'
-                style={{ height: '100px' }}
-              />
-            </Box>
-          )}
-          {!answer && (
-            <>
-              <Box>
-                <img
-                  src='./icons/error.png'
-                  alt='error'
-                  style={{ height: '80px' }}
-                />
-              </Box>
-              <Box
-                sx={{
-                  fontWeight: 'bold',
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                {
-                  INDEX_ANSWER_MAPPING[
-                    allResults.findIndex((item) => item === result)
-                  ]
-                }
-              </Box>
-            </>
-          )}
-          <Box>
-            <Button variant='outlined' onClick={nextQuestion}>
-              Ok
-            </Button>
-          </Box>
-        </Paper>
-      )}
+      <AnswerCard
+        answer={answer}
+        setAnswer={setAnswer}
+        allResults={allResults}
+        result={result}
+        nextQuestion={nextQuestion}
+      />
 
       {/* End Practice */}
       <EndPractice questionsViewed={questionsViewed} />
